@@ -1,9 +1,9 @@
 import express from "express"
 import mysql from "mysql"
 import cors from "cors"
+import fetch from "node-fetch"
 
 const app = express()
-
 /* CONEXION CON MySQL
 SI NO JALA USAR: user: 'root'@'localost'
 const db = mysql.createConnection({
@@ -26,7 +26,7 @@ app.get("/productos", (req, res) => {
 })
 */
 // EJEMPLO QUERY POST
-/*pp.post("/productos", (req, res) => {
+/*app.post("/productos", (req, res) => {
     const query = "INSERT INTO producto (`nombre`,`precio`) VALUES (?)";
     const values = [
         req.body.nombre,

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import "./style.css"
 import{
   BrowserRouter,
@@ -9,7 +9,12 @@ import AddProductos from "./pages/addejm";
 import Productos from "./pages/productosEjm";
 import UpdProductos from "./pages/updateejm";
 
+
+
+
 function App() {
+
+
   return (
     <div className="App">
       <BrowserRouter>
