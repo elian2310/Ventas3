@@ -9,6 +9,7 @@ import AddProductos from "./pages/addejm";
 import Productos from "./pages/productosEjm";
 import UpdProductos from "./pages/updateejm";
 import { Login } from "./pages/login";
+import Facturas from "./pages/facturas";
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <Route path="/" element={<Productos/>}/>
           <Route path="/addejm" element={<AddProductos/>}/>
           <Route path="/updejm" element={<UpdProductos/>}/>
-          <Route path="/facturas" element={<VPreviaFacturas/>}/>
+          <Route path="/facturas" element={<Facturas/>}/>
         </Routes>
       </BrowserRouter>
       

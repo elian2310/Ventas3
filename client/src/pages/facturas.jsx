@@ -6,7 +6,7 @@ const handleChange = (e) => {
   console.log(e.target.value);
 };
 
-const facturas = () => {
+const Facturas = () => {
     return (
     <div>
         <div style={{ background: "#202020", color: "#fff", padding: "20px" }}>
@@ -32,9 +32,9 @@ const facturas = () => {
         <Button text="Imprimir" />
         {/*<Button text="Modificar" />*/}
         <Button text="Eliminar" />
-      </div>)
+    </div>)
   
-    };
+};
 
 function Button({ text }) {
     console.log({ text });
@@ -49,7 +49,7 @@ function Button({ text }) {
         <p> {text}</p>
       </button>
     );
-  }
+}
   
 
-  export default facturas
+export default Facturas
