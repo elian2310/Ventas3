@@ -18,7 +18,7 @@ export const Login = ()=>{
                 <input value={passw} onChange={(e)=> setPassw(e.target.value)} type="password" placeholder="Contrasena" id="password" name="password"/>
                 <button type="submit">Ingresar</button>
             </form>
-            <button>No tienes una cuenta? Resgistrate</button>
+            <button className="link-btn">No tienes una cuenta? Resgistrate</button>
         </div>
     )
 }
