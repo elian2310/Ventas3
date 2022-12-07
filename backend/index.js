@@ -2,8 +2,48 @@ import express from "express"
 import mysql from "mysql"
 import cors from "cors"
 import fetch from "node-fetch"
+// Importando reqs
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const DBConnector = require('./src/dbconnector.js');
+const { query } = require('./src/dbconnector.js');
 
-const app = express()
+//Seteando puerto local
+//const port = process.env.PORT || 8484;
+
+//Inicializando las apps
+const app = express();
+const router = express.Router();
+
+//Prepara la app
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use(cors());
+
+// Seteo Ruta principal
+app.use('/',router);
+
+//Configurando rutas
+router.route('/').get((req,res)=>{
+    res.json("Nuestra API esta funcionando")
+});
+router.route('/users').get(async(req,res)=>{
+    result = await DBConnector.query("SELECT * FROM Usuario")
+    res.json(result);
+});
+
+router.route('/users/:id').get(async(req,res)=>{
+    result = await DBConnector.queryWithParams("SELECT * FROM Usuario WHERE id=?", [req.params.id])
+    res.json(result);
+});
+
+// Inicio de la app
+app.listen(port);
+
+//Muestro puerto iniciado en consola
+console.log("Inicio en el puerto "+ port);
+
 /* CONEXION CON MySQL
 SI NO JALA USAR: user: 'root'@'localost'
 const db = mysql.createConnection({
