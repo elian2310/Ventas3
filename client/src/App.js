@@ -8,12 +8,11 @@ import{
 import AddProductos from "./pages/addejm";
 import Productos from "./pages/productosEjm";
 import UpdProductos from "./pages/updateejm";
-
-
+import { Login } from "./pages/login";
 
 
 function App() {
-
+  
 
   return (
     <div className="App">
@@ -24,6 +23,9 @@ function App() {
           <Route path="/updejm" element={<UpdProductos/>}/>
         </Routes>
       </BrowserRouter>
+      
+      <Login/>
+      
     </div>
   );
 }
