@@ -21,6 +21,7 @@ function App() {
           <Route path="/" element={<Productos/>}/>
           <Route path="/addejm" element={<AddProductos/>}/>
           <Route path="/updejm" element={<UpdProductos/>}/>
+          <Route path="/facturas" element={<VPreviaFacturas/>}/>
         </Routes>
       </BrowserRouter>
       
