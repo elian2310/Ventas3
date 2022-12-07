@@ -8,12 +8,11 @@ import{
 import AddProductos from "./pages/addejm";
 import Productos from "./pages/productosEjm";
 import UpdProductos from "./pages/updateejm";
-import VPreviaFacturas from "./pages/facturas";
-
+import { Login } from "./pages/login";
 
 
 function App() {
-
+  
 
   return (
     <div className="App">
@@ -25,6 +24,9 @@ function App() {
           <Route path="/facturas" element={<VPreviaFacturas/>}/>
         </Routes>
       </BrowserRouter>
+      
+      <Login/>
+      
     </div>
   );
 }
