@@ -9,7 +9,7 @@ import {ListaProductos} from './ListaProductos'
 // Estilos
 
 //Codigo
-export function PedidosPage() {
+const PedidosPage = () => {
   return (
     <div>
       <Barra />
@@ -18,3 +18,5 @@ export function PedidosPage() {
     </div>
   );
 }
+
+export default PedidosPage

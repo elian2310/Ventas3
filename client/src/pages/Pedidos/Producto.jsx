@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 // Importaciones
 import { AiFillStar } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 // Estilos (Producto)
 const ContenedorProducto = styled.div`
@@ -115,7 +116,7 @@ export function Producto({ item }) {
         <h2>{item.Costo}</h2>
         <div>Envio Gratis</div>
         <div style={{ marginTop: "25px" }}>
-          <Boton1 onClick={clickVerDetalles}>Ver Detalles</Boton1>
+          <Boton1 onClick={clickVerDetalles}><Link to="/itemview">Ver Detalles</Link></Boton1>
           <Boton2 onClick={clickVerAgregar}>Agregar</Boton2>
         </div>
       </ContenedorDerecha>

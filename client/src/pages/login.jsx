@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-export const Login = ()=>{
+const Login = ()=>{
     const [username, setUser] = useState('');
     const [passw, setPassw] = useState('');
 
@@ -16,9 +17,12 @@ export const Login = ()=>{
                 <input value={username} onChange={(e)=> setUser(e.target.value)} type="text" placeholder="Nombre de usuario" id="username" name="username"/>
                 <label for="password">password</label>
                 <input value={passw} onChange={(e)=> setPassw(e.target.value)} type="password" placeholder="Contrasena" id="password" name="password"/>
-                <button type="submit">Ingresar</button>
+                <button type="submit"><Link to="/cashier">Ingresar</Link></button>
             </form>
             <button className="link-btn">No tienes una cuenta? Resgistrate</button>
         </div>
     )
 }
+
+export default Login;
+
