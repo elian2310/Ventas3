@@ -65,10 +65,13 @@ const AddBtn = styled.button`
 position: absolute;
 right: 8px;
 bottom: 5px;
-height: 25px;
-width: 50px;
+height: 40px;
+width: 65px;
+padding: 0;
 cursor: pointer;
-
+&:hover{
+    background-color: lightgrey;
+}
 `
 
 
