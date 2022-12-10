@@ -69,7 +69,22 @@ border-radius: 3px;
 }
 `
 
+
+
 const Products = () => {
+
+    const handleClickNum = (num) =>{
+        if(num === 'Del'){
+
+            let aux = document.getElementById("input").value;
+            aux = aux.slice(0,-1);
+            document.getElementById("input").value = aux;
+            }
+        else{
+            
+            document.getElementById("input").value += (num);}
+    }
+
     return (
         <Container>
             
@@ -79,10 +94,10 @@ const Products = () => {
             ))}
             </Prods>
             <RightSide>
-                <Input type="text" placeholder="Item ID"/>
+                <Input id = "input" type="text" placeholder="Item ID"/>
                 <NumPad>
-                    {[1,2,3,4,5,6,7,8,9,0].map(val=>(
-                        <NumBtn>{val}</NumBtn>
+                    {[1,2,3,4,5,6,7,8,9,0, 'Del'].map(val=>(
+                        <NumBtn onClick={() => {handleClickNum(val)}}>{val}</NumBtn>
                     ))}
 
                 </NumPad>
@@ -90,6 +105,7 @@ const Products = () => {
         </Container>
     )
 }
+
 
 export default Products
 
