@@ -64,6 +64,9 @@ width: 100px;
 cursor: pointer;
 //flex: 3;
 border-radius: 3px;
+&:hover{
+    background-color: lightgray;
+}
 `
 
 const Products = () => {

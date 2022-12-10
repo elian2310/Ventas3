@@ -5,7 +5,7 @@
 // Importaciones
 import {Barra} from "./Barra";
 import {ListaProductos} from './ListaProductos'
-
+import React from "react";
 // Estilos
 
 //Codigo
