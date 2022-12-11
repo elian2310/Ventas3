@@ -2,6 +2,8 @@ import Product from "./product"
 import styled from "styled-components"
 import { products } from "./data"
 import React from "react"
+import ItemDetail from "./itemDetail"
+import { useState } from "react"
 
 const Container = styled.div`
     padding: 20px;
@@ -17,12 +19,12 @@ const Prods = styled.div`
     justify-content: space-between;
 `
 const NumPad = styled.div`
-display:flex;
-padding:5px;
-flex-wrap: wrap;
-justify-content: space-between;
-background-color: white;
-margin: 5px;
+    display:flex;
+    padding:5px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: white;
+    margin: 5px;
 //flex-direction: row;
 `
 
@@ -35,7 +37,8 @@ const RightSide = styled.div`
     flex: 1;
     background-color: #a608ab;
     position: relative;
-    height: 300px;
+    height:100%;
+    //overflow: "hidden";
     
 `
 const Input = styled.input`
@@ -68,10 +71,30 @@ border-radius: 3px;
     background-color: lightgray;
 }
 `
+const Details=styled.h2`
+//background-color: red;
+text-align:left;
+color: white;
+`
+const DetailContainer = styled.div`
+//background-color: white;
+display:flex;
+flex-direction: column;
 
+`
 
 
 const Products = () => {
+
+    window.arr = [];
+    const[ar2, update] = useState([]);
+
+    const parentFunction = (ar)=>{
+        update((prev)=> [
+            ...prev, 
+            ar
+        ]);
+    }
 
     const handleClickNum = (num) =>{
         if(num === 'Del'){
@@ -90,17 +113,27 @@ const Products = () => {
             
             <Prods>
             {products.map(item=>(
-                <Product item={item} key = {item.id}/>
+                <Product item={item} ar={ar2} parentFuntion={parentFunction}key = {item.id}/>
             ))}
             </Prods>
             <RightSide>
                 <Input id = "input" type="text" placeholder="Item ID"/>
                 <NumPad>
                     {[1,2,3,4,5,6,7,8,9,0, 'Del'].map(val=>(
-                        <NumBtn onClick={() => {handleClickNum(val)}}>{val}</NumBtn>
+                        <NumBtn onClick={() => {handleClickNum(val)}} key = {val}>{val}</NumBtn>
                     ))}
 
                 </NumPad>
+
+                <DetailContainer id="detailsCon">
+                    <Details id="details" >Detalles:</Details>
+
+                    {ar2.map(v=>(
+                        <ItemDetail id={v[0]} name={v[1]} qty={1}/>
+                    ))}
+
+                </DetailContainer>
+                
             </RightSide>
         </Container>
     )
@@ -109,6 +142,9 @@ const Products = () => {
 
 export default Products
 
+/*{window.arr.map(v=>(
+    <ItemDetail id={v[0]} name={v[1]} qty={1}/>
+))}*/
 /*{[1,2,3,4,5,6,7,8,9,0].map(value=>(
                         <NumBtn {value} />
                     ))}*/

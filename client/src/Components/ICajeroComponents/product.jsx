@@ -11,11 +11,6 @@ height:350px;
 align-items: center;
 justify-content: center;
 background-color: #e5aae6;
-/*background: linear-gradient(
-    20deg,
-    hsl(#e5aae6, 60%,65%),
-    hsl(#4d2133,64%,60%)
-);*/
 display:flex;
 position: relative;
 
@@ -74,15 +69,25 @@ cursor: pointer;
 }
 `
 
+const Product = ({item, ar, parentFuntion}) => {
+    
 
-const Product = ({item}) => {
+    const handleClick = (it) =>{
+        let toAdd = [it.id, it.name];
+        let includes = ar.some(a=>toAdd.every((v,i) => v === a[i]));
+        if(!includes){         
+            parentFuntion(toAdd);
+        }
+        
+    }
+
     return (
         <Container>
             <Info>Item Name: {item.name}</Info>
             <Circle>
                 <Image src = {sample}/>
             </Circle>  
-            <AddBtn>Add</AddBtn>
+            <AddBtn onClick={() => {handleClick(item)}}>Add</AddBtn>
             <Gradient/>       
         </Container>
     )
