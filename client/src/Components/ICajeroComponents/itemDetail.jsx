@@ -49,6 +49,8 @@ const QtyTag = styled.h3`
     position: relative;
     left: -10px;
 `
+
+//receives the id, name and quantity
 const ItemDetail = ({id, name, qty}) => {
 
     return(

@@ -86,25 +86,35 @@ flex-direction: column;
 
 const Products = () => {
 
-    window.arr = [];
+    //useState List Variables, jsAr is a list of Jsons, and ar2 a List of Lists
+    const[jsAr,updateJS] = useState([]);
     const[ar2, update] = useState([]);
 
+    //Update Function for ar2
     const parentFunction = (ar)=>{
         update((prev)=> [
             ...prev, 
             ar
         ]);
     }
-
+    //Update Function for jsAr
+    const parentAdJS = (tA)=>{
+        updateJS((pre)=> [
+            ...pre,
+            tA
+        ]);
+    }
+    
+    
     const handleClickNum = (num) =>{
         if(num === 'Del'){
-
+            //If Del Btn was clicked, slice last value of the string 
             let aux = document.getElementById("input").value;
             aux = aux.slice(0,-1);
             document.getElementById("input").value = aux;
             }
         else{
-            
+            //else, just add the number to string
             document.getElementById("input").value += (num);}
     }
 
@@ -113,7 +123,7 @@ const Products = () => {
             
             <Prods>
             {products.map(item=>(
-                <Product item={item} ar={ar2} parentFuntion={parentFunction}key = {item.id}/>
+                <Product item={item} ar={ar2} parentFuntion={parentFunction} js={jsAr} parentAddJS = {parentAdJS} key = {item.id}/>
             ))}
             </Prods>
             <RightSide>
@@ -128,8 +138,8 @@ const Products = () => {
                 <DetailContainer id="detailsCon">
                     <Details id="details" >Detalles:</Details>
 
-                    {ar2.map(v=>(
-                        <ItemDetail id={v[0]} name={v[1]} qty={1}/>
+                    {jsAr.map(v=>(
+                        <ItemDetail id={v.id} name={v.name} qty={1} key={v.id}/>
                     ))}
 
                 </DetailContainer>

@@ -68,15 +68,22 @@ cursor: pointer;
     background-color: lightgrey;
 }
 `
-
-const Product = ({item, ar, parentFuntion}) => {
+//Product receives item, ar(list of lists), parentFunction(update for ar), jas(list of jsons) and parentAddJS(update for js)
+const Product = ({item, ar, parentFuntion, js, parentAddJS}) => {
     
 
     const handleClick = (it) =>{
+        //form list and json to add to their respective lists
         let toAdd = [it.id, it.name];
+        let toAddJs = {"id":it.id, "name":it.name};
+        console.log("To Add JS: " + JSON.stringify(toAddJs));
+        //See if toAdd is already in the list
         let includes = ar.some(a=>toAdd.every((v,i) => v === a[i]));
-        if(!includes){         
-            parentFuntion(toAdd);
+        if(!includes){   
+            //If it is not, we will add them to the lists
+            console.log("Adding to lists");
+            parentAddJS(toAddJs);      
+            parentFuntion(toAdd);          
         }
         
     }
