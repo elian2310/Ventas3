@@ -105,6 +105,11 @@ const Products = () => {
         ]);
     }
     
+    //Rmv Function for jsAr
+    const parentRmvJs = (toRmv)=>{
+        updateJS((current)=>
+            current.filter((item)=>item.id !== toRmv));
+    }
     
     const handleClickNum = (num) =>{
         if(num === 'Del'){
@@ -139,7 +144,7 @@ const Products = () => {
                     <Details id="details" >Detalles:</Details>
 
                     {jsAr.map(v=>(
-                        <ItemDetail id={v.id} name={v.name} qty={1} key={v.id}/>
+                        <ItemDetail id={v.id} name={v.name} qty={1} ar={ar2} parentRmv ={parentRmvJs} key={v.id}/>
                     ))}
 
                 </DetailContainer>

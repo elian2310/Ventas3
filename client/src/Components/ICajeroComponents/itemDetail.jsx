@@ -1,4 +1,5 @@
 import React from "react"
+import { json } from "react-router-dom"
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -51,14 +52,36 @@ const QtyTag = styled.h3`
 `
 
 //receives the id, name and quantity
-const ItemDetail = ({id, name, qty}) => {
+const ItemDetail = ({id, name, qty, parentRmv, ar, js}) => {
 
+    function myIndexOfAr(o, arr) {    
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i][0] == o[0] && arr[i][1] == o[1]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    const handleClickRmv = (id, name) =>{
+        let toRmv = [id, name];
+        let index = myIndexOfAr(toRmv, ar);
+        console.log("Index: " + index);
+        if(index>-1)//Item Exists in list
+        {
+            //if ar contains the element, remove it
+            console.log("Found Element with index: " + index);
+            ar.splice(index,1);
+            parentRmv(id);
+        }
+        console.log(ar);
+    }
     return(
         <Container>
             <IdTag>ID: {id}</IdTag>
             <NameTag>{name}</NameTag>
             <QtyTag>Qty: {qty}</QtyTag>
-            <DelBtn>Del</DelBtn>
+            <DelBtn onClick={() => {handleClickRmv(id, name)}}>Del</DelBtn>
 
         </Container>
     )
