@@ -86,6 +86,19 @@ flex-direction: column;
 
 const Products = () => {
 
+    function includes(id, arr)
+    {
+        for(var i = 0; i<arr.length; i++)
+        {
+            //console.log("At index: " + i + ", id value is: " + arr[i][0]);
+            if(arr[i][0]===id){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     function myIndexOfAr(id, arr) {    
         for (var i = 0; i < arr.length; i++) {
             if (arr[i].id == id) {
@@ -121,6 +134,25 @@ const Products = () => {
             current.filter((item)=>item.id !== toRmv));
     }
     
+    //Update Qty jsAr
+    const parentQtyJs = (index)=>{
+        jsAr[index].qty++;
+        updateJS((pre)=> [
+            ...pre
+        ]);
+        //updateJS(jsAr);
+
+        /*jsAr.forEach(element => {
+            console.log(JSON.stringify(element));
+        });*/
+    }
+
+    //Update Qty listAr
+    const parentQtyAr = (index)=>{
+        ar2[index][2]++;
+        update(ar2);
+    }
+
     const handleClickNum = (num) =>{
         if(num === 'Del'){
             //If Del Btn was clicked, slice last value of the string 
@@ -135,13 +167,25 @@ const Products = () => {
                 let indexFound = myIndexOfAr(toSearch, products);
                 if(indexFound > -1)
                 {
-                    let toAddAr = [products[indexFound].id, products[indexFound].name];
-                    let toAddJS = {"id":products[indexFound].id, "name":products[indexFound].name};
-                    let includes = ar2.some(a=>toAddAr.every((v,i) => v === a[i]));
-                    if(!includes)
+                    let toAddAr = [products[indexFound].id, products[indexFound].name, 1];
+                    let toAddJS = {"id":products[indexFound].id, "name":products[indexFound].name, "qty":1};
+                    //let includes = ar2.some(a=>toAddAr.every((v,i) => v === a[i]));
+                    let included = includes(products[indexFound].id, ar2);
+                    //console.log("Element: " + products[indexFound].id + " is: " + included);
+                    if(!included)
                     {
+                        //If it isnt in lists, we will add it
                         parentFunction(toAddAr);
                         parentAdJS(toAddJS);
+                        document.getElementById("input").value = '';
+                    }
+                    else
+                    {
+                        let indexInDetails = myIndexOfAr(products[indexFound].id,jsAr)
+                        //If it is already in it, we will update the qty
+                        //console.log("Changing Qty");
+                        parentQtyAr(indexInDetails);
+                        parentQtyJs(indexInDetails);
                         document.getElementById("input").value = '';
                     }
                 }
@@ -159,7 +203,7 @@ const Products = () => {
             
             <Prods>
             {products.map(item=>(
-                <Product item={item} ar={ar2} parentFuntion={parentFunction} js={jsAr} parentAddJS = {parentAdJS} key = {item.id}/>
+                <Product item={item} ar={ar2} parentFuntion={parentFunction} js={jsAr} parentAddJS = {parentAdJS} parentQtyAr={parentQtyAr} parentQtyJs={parentQtyJs} inc={includes} ind={myIndexOfAr} key = {item.id}/>
             ))}
             </Prods>
             <RightSide>
@@ -175,7 +219,7 @@ const Products = () => {
                     <Details id="details" >Detalles:</Details>
 
                     {jsAr.map(v=>(
-                        <ItemDetail id={v.id} name={v.name} qty={1} ar={ar2} parentRmv ={parentRmvJs} key={v.id}/>
+                        <ItemDetail id={v.id} name={v.name} qty={v.qty} ar={ar2} parentRmv ={parentRmvJs} key={v.id}/>
                     ))}
 
                 </DetailContainer>
@@ -194,19 +238,3 @@ export default Products
 /*{[1,2,3,4,5,6,7,8,9,0].map(value=>(
                         <NumBtn {value} />
                     ))}*/
-
-/*<NumPad>
-<NumBtn>1</NumBtn>
-<NumBtn>2</NumBtn>
-<NumBtn>3</NumBtn>
-
-<NumBtn>4</NumBtn>
-<NumBtn>5</NumBtn>
-<NumBtn>6</NumBtn>
-
-<NumBtn>7</NumBtn>
-<NumBtn>8</NumBtn>
-<NumBtn>9</NumBtn>
-
-<NumBtn>0</NumBtn>
-</NumPad>*/

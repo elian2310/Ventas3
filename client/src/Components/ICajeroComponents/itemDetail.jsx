@@ -70,11 +70,11 @@ const ItemDetail = ({id, name, qty, parentRmv, ar, js}) => {
         if(index>-1)//Item Exists in list
         {
             //if ar contains the element, remove it
-            console.log("Found Element with index: " + index);
+            //console.log("Found Element with index: " + index);
             ar.splice(index,1);
             parentRmv(id);
         }
-        console.log(ar);
+        //console.log(ar);
     }
     return(
         <Container>
