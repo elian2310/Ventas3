@@ -4,6 +4,7 @@ import Products from "../Components/ICajeroComponents/products"
 import Header from "../Components/ICajeroComponents/title"
 import React from "react"
 import { Link } from "react-router-dom"
+import { useState } from "react"
 
 const CashierPage = () => {
 return(

@@ -11,11 +11,6 @@ height:350px;
 align-items: center;
 justify-content: center;
 background-color: #e5aae6;
-/*background: linear-gradient(
-    20deg,
-    hsl(#e5aae6, 60%,65%),
-    hsl(#4d2133,64%,60%)
-);*/
 display:flex;
 position: relative;
 
@@ -65,21 +60,41 @@ const AddBtn = styled.button`
 position: absolute;
 right: 8px;
 bottom: 5px;
-height: 25px;
-width: 50px;
+height: 40px;
+width: 65px;
+padding: 0;
 cursor: pointer;
-
+&:hover{
+    background-color: lightgrey;
+}
 `
+//Product receives item, ar(list of lists), parentFunction(update for ar), jas(list of jsons) and parentAddJS(update for js)
+const Product = ({item, ar, parentFuntion, js, parentAddJS}) => {
+    
 
+    const handleClick = (it) =>{
+        //form list and json to add to their respective lists
+        let toAdd = [it.id, it.name];
+        let toAddJs = {"id":it.id, "name":it.name};
+        console.log("To Add JS: " + JSON.stringify(toAddJs));
+        //See if toAdd is already in the list
+        let includes = ar.some(a=>toAdd.every((v,i) => v === a[i]));
+        if(!includes){   
+            //If it is not, we will add them to the lists
+            console.log("Adding to lists");
+            parentAddJS(toAddJs);      
+            parentFuntion(toAdd);          
+        }
+        
+    }
 
-const Product = ({item}) => {
     return (
         <Container>
             <Info>Item Name: {item.name}</Info>
             <Circle>
                 <Image src = {sample}/>
             </Circle>  
-            <AddBtn>Add</AddBtn>
+            <AddBtn onClick={() => {handleClick(item)}}>Add</AddBtn>
             <Gradient/>       
         </Container>
     )

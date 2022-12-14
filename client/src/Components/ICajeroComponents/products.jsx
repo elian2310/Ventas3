@@ -2,6 +2,8 @@ import Product from "./product"
 import styled from "styled-components"
 import { products } from "./data"
 import React from "react"
+import ItemDetail from "./itemDetail"
+import { useState } from "react"
 
 const Container = styled.div`
     padding: 20px;
@@ -17,12 +19,12 @@ const Prods = styled.div`
     justify-content: space-between;
 `
 const NumPad = styled.div`
-display:flex;
-padding:5px;
-flex-wrap: wrap;
-justify-content: space-between;
-background-color: white;
-margin: 5px;
+    display:flex;
+    padding:5px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: white;
+    margin: 5px;
 //flex-direction: row;
 `
 
@@ -35,7 +37,8 @@ const RightSide = styled.div`
     flex: 1;
     background-color: #a608ab;
     position: relative;
-    height: 300px;
+    height:100%;
+    //overflow: "hidden";
     
 `
 const Input = styled.input`
@@ -64,32 +67,99 @@ width: 100px;
 cursor: pointer;
 //flex: 3;
 border-radius: 3px;
+&:hover{
+    background-color: lightgray;
+}
+`
+const Details=styled.h2`
+//background-color: red;
+text-align:left;
+color: white;
+`
+const DetailContainer = styled.div`
+//background-color: white;
+display:flex;
+flex-direction: column;
+
 `
 
+
 const Products = () => {
+
+    //useState List Variables, jsAr is a list of Jsons, and ar2 a List of Lists
+    const[jsAr,updateJS] = useState([]);
+    const[ar2, update] = useState([]);
+
+    //Update Function for ar2
+    const parentFunction = (ar)=>{
+        update((prev)=> [
+            ...prev, 
+            ar
+        ]);
+    }
+    //Update Function for jsAr
+    const parentAdJS = (tA)=>{
+        updateJS((pre)=> [
+            ...pre,
+            tA
+        ]);
+    }
+    
+    //Rmv Function for jsAr
+    const parentRmvJs = (toRmv)=>{
+        updateJS((current)=>
+            current.filter((item)=>item.id !== toRmv));
+    }
+    
+    const handleClickNum = (num) =>{
+        if(num === 'Del'){
+            //If Del Btn was clicked, slice last value of the string 
+            let aux = document.getElementById("input").value;
+            aux = aux.slice(0,-1);
+            document.getElementById("input").value = aux;
+            }
+        else{
+            //else, just add the number to string
+            document.getElementById("input").value += (num);}
+    }
+
     return (
         <Container>
             
             <Prods>
             {products.map(item=>(
-                <Product item={item} key = {item.id}/>
+                <Product item={item} ar={ar2} parentFuntion={parentFunction} js={jsAr} parentAddJS = {parentAdJS} key = {item.id}/>
             ))}
             </Prods>
             <RightSide>
-                <Input type="text" placeholder="Item ID"/>
+                <Input id = "input" type="text" placeholder="Item ID"/>
                 <NumPad>
-                    {[1,2,3,4,5,6,7,8,9,0].map(val=>(
-                        <NumBtn>{val}</NumBtn>
+                    {[1,2,3,4,5,6,7,8,9,0, 'Del'].map(val=>(
+                        <NumBtn onClick={() => {handleClickNum(val)}} key = {val}>{val}</NumBtn>
                     ))}
 
                 </NumPad>
+
+                <DetailContainer id="detailsCon">
+                    <Details id="details" >Detalles:</Details>
+
+                    {jsAr.map(v=>(
+                        <ItemDetail id={v.id} name={v.name} qty={1} ar={ar2} parentRmv ={parentRmvJs} key={v.id}/>
+                    ))}
+
+                </DetailContainer>
+                
             </RightSide>
         </Container>
     )
 }
 
+
 export default Products
 
+/*{window.arr.map(v=>(
+    <ItemDetail id={v[0]} name={v[1]} qty={1}/>
+))}*/
 /*{[1,2,3,4,5,6,7,8,9,0].map(value=>(
                         <NumBtn {value} />
                     ))}*/
