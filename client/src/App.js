@@ -16,12 +16,13 @@ import ItemView from "./pages/ItemView";
 
 
 function App() {
-  
+
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="/facturas" element={<VPreviaFacturas/>}/>
           <Route path="/" element={<Login/>}/>
           <Route path="/addejm" element={<AddProductos/>}/>
           <Route path="/updejm" element={<UpdProductos/>}/>
