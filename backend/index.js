@@ -2,12 +2,10 @@ import express from "express"
 import mysql from "mysql"
 import cors from "cors"
 import fetch from "node-fetch"
+import bodyParser from "body-parser"
 // Importando reqs
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const DBConnector = require('./src/dbconnector.js');
-const { query } = require('./src/dbconnector.js');
+//const DBConnector = require('./src/dbconnector.js');
+//const { query } = require('./src/dbconnector.js');
 
 //Seteando puerto local
 //const port = process.env.PORT || 8484;
@@ -19,7 +17,7 @@ const router = express.Router();
 //Prepara la app
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
-app.use(cors());
+//app.use(cors());
 
 // Seteo Ruta principal
 app.use('/',router);
@@ -39,10 +37,10 @@ router.route('/users/:id').get(async(req,res)=>{
 });
 
 // Inicio de la app
-app.listen(port);
+//app.listen(port);
 
 //Muestro puerto iniciado en consola
-console.log("Inicio en el puerto "+ port);
+//console.log("Inicio en el puerto "+ port);
 
 /* CONEXION CON MySQL
 SI NO JALA USAR: user: 'root'@'localost'
@@ -51,7 +49,7 @@ const db = mysql.createConnection({
     user:"root",
     password:"",
     database:"dbhosp"
-})*/
+}) */
 
 app.use(express.json())
 app.use(cors())
@@ -65,8 +63,22 @@ app.get("/productos", (req, res) => {
     })
 })
 */
+
+app.get("/datosfactura", (req, res) => {
+    var datareq = req.query.codigo
+    const currDate = new Date()
+    return res.json({
+        nitEmisor: "9448270",
+        fecha: currDate,
+        sucursal: "1",
+        control: "123456" + datareq,
+        cuf: "1234ABCD"
+    })
+})
+
+
 // EJEMPLO QUERY POST
-/*app.post("/productos", (req, res) => {
+/* app.post("/productos", (req, res) => {
     const query = "INSERT INTO producto (`nombre`,`precio`) VALUES (?)";
     const values = [
         req.body.nombre,
@@ -77,7 +89,8 @@ app.get("/productos", (req, res) => {
         if (err) return res.json(err);
         return res.json("Producto agregado correctamente");
     });
-})*/
+}) */
+
 
 
 app.get("/", (req, res) => {
