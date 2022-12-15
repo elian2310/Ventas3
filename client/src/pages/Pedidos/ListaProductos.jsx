@@ -3,7 +3,7 @@ import React from "react";
 
 // Importaciones de Estilos
 import "./styles.css";
-import styled from "styled-components"
+import styled from "styled-components";
 
 // Importaciones
 import { productos_falsos } from "./DatosFalsos";
