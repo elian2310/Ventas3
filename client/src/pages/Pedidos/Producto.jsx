@@ -98,7 +98,7 @@ export function Producto({ item }) {
       </ContenedorIzquierda>
       <ContenedorCentro>
         <Info>
-          <TituloProducto>{item.Nombre}</TituloProducto>
+          <TituloProducto>{item.NombreProducto}</TituloProducto>
           <div>
             <AiFillStar style={{ color: "red" }} />
             <AiFillStar style={{ color: "red" }} />
@@ -106,13 +106,13 @@ export function Producto({ item }) {
             <AiFillStar style={{ color: "red" }} />
             <AiFillStar style={{ color: "red" }} />
           </div>
-          <p>Descripcion:</p>
-          <p></p>
+          <p style={{fontWeight:"bold"}}>Descripcion:</p>
+          <p>{item.Descripcion}</p>
         </Info>
       </ContenedorCentro>
       <ContenedorDerecha>
-        <h2>{item.Costo}</h2>
-        <div>Envio Gratis</div>
+        <h2>{item.Precio}$</h2>
+        <div style={{fontWeight:"bold"}}>Envio Gratis</div>
         <div style={{ marginTop: "20px" }}>
           <Boton1 onClick={clickVerDetalles}>
             <Link to="/itemview">Ver Detalles</Link>
