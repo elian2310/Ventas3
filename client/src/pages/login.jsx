@@ -7,8 +7,19 @@ const Login = ()=>{
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(username);
+        
     }
+
+   const usuario1 = {
+        usrname1: "waldo",
+        passwrd1: "bombaloko"
+   }
+   
+   const usuario2 = {
+    usrname: "nico",
+    passwrd: "furro"
+}
+    const loginDone = ""
 
     return (
         <div className="auth-form-container">
@@ -17,7 +28,20 @@ const Login = ()=>{
                 <input value={username} onChange={(e)=> setUser(e.target.value)} type="text" placeholder="Nombre de usuario" id="username" name="username"/>
                 <label for="password">password</label>
                 <input value={passw} onChange={(e)=> setPassw(e.target.value)} type="password" placeholder="Contrasena" id="password" name="password"/>
-                <button type="submit"><Link to="/cashier">Ingresar</Link></button>
+                <button type={"submit"} onClick={function () {
+                    
+                    if(usuario2.usrname == username && usuario2.passwrd == passw ){
+                        console.log("lol");
+                        window.location.href="/cashier";
+                        
+                    }
+                    
+                    if( usuario1.usrname1 == username && usuario1.passwrd1 == passw){
+                        window.location.href="/cashier";
+                    }
+                    
+                    
+                }} >Ingresar</button> 
             </form>
             <button className="link-btn">No tienes una cuenta? Resgistrate</button>
         </div>

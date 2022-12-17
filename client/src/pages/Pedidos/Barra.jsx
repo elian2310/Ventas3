@@ -6,12 +6,13 @@ import "./styles.css";
 import styled from "styled-components";
 
 // Importaciones
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineHome } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 // Estilos (Barra)
 const ContenedorBarra = styled.div`
   height: auto;
-  background: #d1b7a1;
+  background: #aa30aa;
 `;
 
 const BarraEstilo = styled.div`
@@ -41,13 +42,10 @@ const BarraDerecha = styled.div`
 
 // Estilos (Otros)
 const Busqueda = styled.div`
-  border: 1px solid;
   margin-left: 5px;
 `;
 
-const Inicio = styled.h1`
-  cursor: pointer;
-`;
+const Inicio = styled.h1``;
 
 // Funciones boton
 function clickVerCarrito() {
@@ -75,12 +73,12 @@ export const Barra = () => {
           </Busqueda>
         </BarraIzquierda>
         <BarraCentro>
-          <Inicio onClick={clickInicio}>Pedidos</Inicio>
+          <Inicio>Pedidos</Inicio>
         </BarraCentro>
         <BarraDerecha>
-          <AiOutlineShoppingCart
+          <AiOutlineHome
             style={{ height: "80px", width: "80px", cursor: "pointer" }}
-            onClick={clickVerCarrito}
+            onClick={clickInicio}
           />
         </BarraDerecha>
       </BarraEstilo>

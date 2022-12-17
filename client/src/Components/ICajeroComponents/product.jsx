@@ -69,21 +69,34 @@ cursor: pointer;
 }
 `
 //Product receives item, ar(list of lists), parentFunction(update for ar), jas(list of jsons) and parentAddJS(update for js)
-const Product = ({item, ar, parentFuntion, js, parentAddJS}) => {
+const Product = ({item, ar, parentFuntion, js, parentAddJS, parentQtyAr, parentQtyJs, inc, ind}) => {
     
 
     const handleClick = (it) =>{
         //form list and json to add to their respective lists
-        let toAdd = [it.id, it.name];
-        let toAddJs = {"id":it.id, "name":it.name};
-        console.log("To Add JS: " + JSON.stringify(toAddJs));
+        let toAdd = [it.id, it.name, 1];
+        let toAddJs = {"id":it.id, "name":it.name, "qty":1};
+        //console.log("To Add JS: " + JSON.stringify(toAddJs));
         //See if toAdd is already in the list
-        let includes = ar.some(a=>toAdd.every((v,i) => v === a[i]));
-        if(!includes){   
+        //let includes = ar.some(a=>toAdd.every((v,i) => v === a[i]));
+        let included = inc(item.id, ar);
+        if(!included){   
             //If it is not, we will add them to the lists
-            console.log("Adding to lists");
+            //console.log("Adding to lists");
             parentAddJS(toAddJs);      
             parentFuntion(toAdd);          
+        }
+        else
+        {
+            //If it is already in it, we will add them
+            let indexInDetails = ind(item.id,js);
+            /*console.log("Index in details: " + indexInDetails);
+            console.log("Id to search in details: " + item.id);
+            ar.forEach(element => {
+              console.log(element);  
+            });*/
+            parentQtyAr(indexInDetails);
+            parentQtyJs(indexInDetails);
         }
         
     }

@@ -32,11 +32,13 @@ const ContenedorIzquierda = styled.div`
 
 const ContenedorCentro = styled.div`
   border: 1px solid;
+  border-radius: 15px;
   width: 30vh;
 `;
 
 const ContenedorDerecha = styled.div`
   border: 1px solid;
+  border-radius: 15px;
   width: 15vh;
   text-align: center;
   align-items: center;
@@ -48,11 +50,9 @@ const Imagen = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 15px;
-
 `;
 
 const Info = styled.div`
-  border: 1px solid;
   height: 100%;
   width: 100%;
 `;
@@ -63,9 +63,6 @@ const TituloProducto = styled.h2`
 
 // Estilos (Botones)
 const Boton1 = styled.button`
-  background: #575fc9;
-  color: white;
-  outline: 0px;
   padding: 5px 15px;
   border-radius: 5px;
   cursor: pointer;
@@ -73,13 +70,14 @@ const Boton1 = styled.button`
 
 const Boton2 = styled.button`
   background: fixed;
-  color: #575fc9;
+  color: white;
   outline: 0px;
   padding: 5px 10px;
   border: solid;
   border-radius: 5px;
-  border-color: #575fc9;
+  border-color: white;
   cursor: pointer;
+  margin: 5px;
 `;
 
 // Funciones boton
@@ -100,7 +98,7 @@ export function Producto({ item }) {
       </ContenedorIzquierda>
       <ContenedorCentro>
         <Info>
-          <TituloProducto>{item.Nombre}</TituloProducto>
+          <TituloProducto>{item.NombreProducto}</TituloProducto>
           <div>
             <AiFillStar style={{ color: "red" }} />
             <AiFillStar style={{ color: "red" }} />
@@ -108,16 +106,18 @@ export function Producto({ item }) {
             <AiFillStar style={{ color: "red" }} />
             <AiFillStar style={{ color: "red" }} />
           </div>
-          <p>Descripcion:</p>
-          <p></p>
+          <p style={{fontWeight:"bold"}}>Descripcion:</p>
+          <p>{item.Descripcion}</p>
         </Info>
       </ContenedorCentro>
       <ContenedorDerecha>
-        <h2>{item.Costo}</h2>
-        <div>Envio Gratis</div>
-        <div style={{ marginTop: "25px" }}>
-          <Boton1 onClick={clickVerDetalles}><Link to="/itemview">Ver Detalles</Link></Boton1>
-          <Boton2 onClick={clickVerAgregar}>Agregar</Boton2>
+        <h2>{item.Precio}$</h2>
+        <div style={{fontWeight:"bold"}}>Envio Gratis</div>
+        <div style={{ marginTop: "20px" }}>
+          <Boton1 onClick={clickVerDetalles}>
+            <Link to="/itemview">Ver Detalles</Link>
+          </Boton1>
+          {/*<Boton2 onClick={clickVerAgregar}>Agregar</Boton2>*/}
         </div>
       </ContenedorDerecha>
     </ContenedorProducto>

@@ -1,9 +1,10 @@
 // Importaciones basicas
 import React from "react";
 
+
 // Importaciones de Estilos
 import "./styles.css";
-import styled from "styled-components"
+import styled from "styled-components";
 
 // Importaciones
 import { productos_falsos } from "./DatosFalsos";
@@ -31,7 +32,7 @@ export const ListaProductos = () => {
     <Container>
       <Prods>
         {productos_falsos.map((item) => (
-          <Producto item={item} key={item.id} />
+          <Producto item={item} key={item.CodigoQR} />
         ))}
       </Prods>
     </Container>
