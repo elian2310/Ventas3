@@ -15,6 +15,8 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mysql": "^2.18.1",
-    "node-fetch": "^3.3.0"
+    "node-fetch": "^3.3.0",
+    "pdfkit": "^0.13.0",
+    "pdfkit-construct": "^1.2.3"
   }
 }

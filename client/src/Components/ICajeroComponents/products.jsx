@@ -5,6 +5,7 @@ import React from "react"
 import ItemDetail from "./itemDetail"
 import { useState } from "react"
 
+
 const Container = styled.div`
     padding: 20px;
     display:flex;
