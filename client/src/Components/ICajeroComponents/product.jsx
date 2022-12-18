@@ -74,12 +74,12 @@ const Product = ({item, ar, parentFuntion, js, parentAddJS, parentQtyAr, parentQ
 
     const handleClick = (it) =>{
         //form list and json to add to their respective lists
-        let toAdd = [it.id, it.name, 1];
-        let toAddJs = {"id":it.id, "name":it.name, "qty":1};
+        let toAdd = [it.CodigoQR, it.NombreProducto, 1, it.Precio];
+        let toAddJs = {"CodigoQR":it.CodigoQR, "NombreProducto":it.NombreProducto, "qty":1, "Precio":it.Precio};
         //console.log("To Add JS: " + JSON.stringify(toAddJs));
         //See if toAdd is already in the list
         //let includes = ar.some(a=>toAdd.every((v,i) => v === a[i]));
-        let included = inc(item.id, ar);
+        let included = inc(item.CodigoQR, ar);
         if(!included){   
             //If it is not, we will add them to the lists
             //console.log("Adding to lists");
@@ -89,9 +89,9 @@ const Product = ({item, ar, parentFuntion, js, parentAddJS, parentQtyAr, parentQ
         else
         {
             //If it is already in it, we will add them
-            let indexInDetails = ind(item.id,js);
+            let indexInDetails = ind(item.CodigoQR,js);
             /*console.log("Index in details: " + indexInDetails);
-            console.log("Id to search in details: " + item.id);
+            console.log("Id to search in details: " + item.CodigoQR);
             ar.forEach(element => {
               console.log(element);  
             });*/
@@ -103,7 +103,7 @@ const Product = ({item, ar, parentFuntion, js, parentAddJS, parentQtyAr, parentQ
 
     return (
         <Container>
-            <Info>Item Name: {item.name}</Info>
+            <Info>Item Name: {item.NombreProducto}</Info>
             <Circle>
                 <Image src = {sample}/>
             </Circle>  

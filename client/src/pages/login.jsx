@@ -32,12 +32,12 @@ const Login = ()=>{
                     
                     if(usuario2.usrname == username && usuario2.passwrd == passw ){
                         console.log("lol");
-                        window.location.href="/cashier";
+                        window.location.href="/menu";
                         
                     }
                     
                     if( usuario1.usrname1 == username && usuario1.passwrd1 == passw){
-                        window.location.href="/cashier";
+                        window.location.href="/menu";
                     }
                     
                     

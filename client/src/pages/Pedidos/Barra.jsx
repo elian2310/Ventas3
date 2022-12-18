@@ -7,7 +7,8 @@ import styled from "styled-components";
 
 // Importaciones
 import { AiOutlineHome } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 // Estilos (Barra)
 const ContenedorBarra = styled.div`
@@ -52,12 +53,14 @@ function clickVerCarrito() {
   alert("Viendo carritos");
 }
 
-function clickInicio() {
-  alert("Volviendo al inicio");
-}
+
 
 // Codigo
 export const Barra = () => {
+  const navigate = useNavigate();
+  function clickInicio() {
+    navigate('/menu');
+  }
   return (
     <ContenedorBarra>
       <BarraEstilo>
@@ -79,7 +82,7 @@ export const Barra = () => {
           <AiOutlineHome
             style={{ height: "80px", width: "80px", cursor: "pointer" }}
             onClick={clickInicio}
-          />
+          ><Link to="/menu"></Link></AiOutlineHome>
         </BarraDerecha>
       </BarraEstilo>
     </ContenedorBarra>

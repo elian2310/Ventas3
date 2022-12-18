@@ -7,16 +7,25 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 
 const CashierPage = () => {
-return(
 
-    <div>
-        <Header/>
-        <Products/>
-        <button><Link to="/pedidos">Pedidos</Link></button>
-        <button><Link to="/facturas">VistaFactura</Link></button>
-    </div>
+    const [lista, setLista] = useState('');
 
-)
+    const childToParent = (childLista) => {
+        setLista(childLista);
+    }
+
+    
+
+    return(
+
+        <div>
+            <Header/>
+            <Products childToParent={childToParent}/>
+            <button><Link to="/pedidos">Pedidos</Link></button>
+            <button><Link to="/facturas" state={{productos: lista}}>Generar Factura</Link></button>
+        </div>
+
+    )
 
 }
 

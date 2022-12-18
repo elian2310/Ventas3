@@ -9,7 +9,7 @@ const ItemView = () => {
   return (
     <div className='ItemApp'>
       <Item />
-      <ApartadoCompra />
+      
       
     </div>
       

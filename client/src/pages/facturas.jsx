@@ -1,11 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-
+import { useLocation, Link } from 'react-router-dom';
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import Pdf from '../../src/factura.pdf';
 
-const urlApi = "https://swapi.dev/api/people/1/"
 
 
 const handleChange = (e) => {
@@ -13,24 +12,46 @@ const handleChange = (e) => {
 };
 
 const Facturas = () => {
+  const location = useLocation()
+  const { productos } = location.state
   const [datacuf, setDataCuf] = useState({})
+  const [razSoc, setRazSoc] = useState('');
+  const [updRazSoc, setUpdRazSoc] = useState(razSoc);
+  const [nitCli, setNitCli] = useState('');
+  const [updNitCli, setUpdNitCli] = useState(nitCli);
+
+  const handleChangeRS = (event) => {
+    setRazSoc(event.target.value);
+  }
+  const handleChangeNC = (event) => {
+    setNitCli(event.target.value);
+  }
+
+  const handleClick = () => {
+    setUpdRazSoc(razSoc);
+    setUpdNitCli(nitCli);
+    imprimirFactura(productos, datacuf.cuf, datacuf.control, datacuf.monto, datacuf.qr, nitCli, datacuf.fecha, razSoc);
+  }
 
     useEffect(() => {
         getCUFWithFetch();
     }, []);
 
     const getCUFWithFetch = async () => {
-        const response = await fetch(urlApi);
-        const jsonData = await response.json();
-        setDataCuf(jsonData);
+        const response = await axios.get("http://localhost:8800/datosfactura", {
+          params: {
+            codigo: "A19E23EF34124CD",
+            carrito: productos
+          }
+        });
+        
+        setDataCuf(response.data);
     };
-
-    
-  
+    console.log(datacuf)
   return (
   <div>
       <div style={{ background: "#202020", color: "#fff", padding: "20px" }}>
-        <h1> Vista previa factura</h1>
+        <h1> Información de facturación </h1>
       </div>
       
       <p style={{ fontWeight: "lighter", fontSize: "2em" }}>
@@ -38,43 +59,60 @@ const Facturas = () => {
         <input
           style={{ fontSize: "0.7em" }}
           id="razonsocial"
-          onChange={handleChange}
+          onChange={handleChangeRS}
         />
       </p>
     
       <p style={{ fontWeight: "lighter", fontSize: "2em" }}>
-        NIT :{" "}
-        <input style={{ fontSize: "0.7em" }} id="nit" onChange={handleChange} />
+        NIT CLIENTE :{" "}
+        <input style={{ fontSize: "0.7em" }} id="nit" onChange={handleChangeNC} />
       </p>
 
       <p style={{ fontWeight: "lighter", fontSize: "2em" }}>
-        Codigo de Control :{" "}
-        <input style={{ fontSize: "0.7em" }} id="control" onChange={handleChange} placeholder={datacuf.name} />
+        CUF :{" "}
+        <input style={{ fontSize: "0.7em" }} id="cuf" onChange={handleChange} value={datacuf.cuf} readOnly/>
       </p>
+
+      <p style={{ fontWeight: "lighter", fontSize: "2em" }}>
+        Fecha de Emisión :{" "}
+        <input style={{ fontSize: "0.7em" }} id="fechaEmision" onChange={handleChange} value={datacuf.fecha} readOnly/>
+      </p>
+
+      <p style={{ fontWeight: "lighter", fontSize: "2em" }}>
+        Factura Número :{" "}
+        <input style={{ fontSize: "0.7em" }} id="nroFact" onChange={handleChange} value={datacuf.nroFactura} readOnly/>
+      </p>
+
+      
     
-      <h2 style={{ fontWeight: "lighter" }}>*Inserte Informacion de factura*</h2>
-    
-      <Button text="Imprimir" />
+      <button onClick={handleClick}>Generar PDF</button>
+      <form action={Pdf} target="_blank">
+        <input type="submit" value="Ver PDF" />
+      </form>
       {/*<Button text="Modificar" />*/}
-      <Button text="Eliminar" />
+      <button><Link to="/cashier"> Volver </Link></button>
   </div>)
   
 };
 
-function Button({ text }) {
-    console.log({ text });
-    return (
-      <button 
-        onClick={function () {
-          console.log("Loading....");
-          alert("Estas seguro de que deseas "+text+ " la factura")
-          //insertar funcion del boton     
-         
-        }}style={{ width: '300px', align: "center", fontSize: '2em'}} >
-        <p> {text}</p>
-      </button>
-    );
+const imprimirFactura = async (productos, cuf, codigo, monto, qr, ci, fecha, nombre) => {
+  const response = await axios.get("http://localhost:8800/getFactura", {
+    params: {
+      productos: productos,
+      cuf: cuf,
+      codigo: codigo,
+      monto: monto,
+      qr: qr,
+      ci: ci,
+      fecha: fecha,
+      nombre: nombre
+    }
+  })
+  
+  
 }
+
+
   
 
 export default Facturas

@@ -3,7 +3,8 @@ import mysql from "mysql"
 import cors from "cors"
 import fetch from "node-fetch"
 import bodyParser from "body-parser"
-import pdf from "pdfkit-construct"
+import PDF from "pdfkit-construct"
+import fs from "fs"
 // Importando reqs
 //const DBConnector = require('./src/dbconnector.js');
 //const { query } = require('./src/dbconnector.js');
@@ -65,29 +66,54 @@ app.get("/productos", (req, res) => {
 })
 */
 
+app.get("/getProductos", (req, res) => {
+    const query = "SELECT * FROM producto"
+    db.query(query, (err, data) => {
+        if(err) return res.json(err)
+        return res.json(data)
+    })
+})
+app.get("/getProductoByQR", (req, res) => {
+    var codQR = req.query.CodigoQR
+    const query = "SELECT * FROM producto WHERE CodigoQR = " + codQR;
+    db.query(query, (err, data) => {
+        if(err) return res.json(err)
+        return res.json(data)
+    }) 
+})
+
 app.get("/datosfactura", (req, res) => {
     var codreq = req.query.codigo
     var productos = req.query.carrito
     const quer = "SELECT NumFactura from factura ORDER BY NumFactura DESC LIMIT 1"
-    const currDate = new Date()
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedToday = dd + '/' + mm + '/' + yyyy;
+    console.log(productos)
     var montoTotal = 0
     for (var i = 0; i < productos.length; i++){
-        montoTotal = montoTotal + ( productos[i].precio * productos[i].cantidad )
+        montoTotal = montoTotal + ( productos[i].Precio * productos[i].qty )
     }
-    db.query(query,(err,data) => {
+    db.query(quer,(err,data) => {
         if(err) return res.json(err)
         var nrof = 1
         if(data.length > 0){
             nrof = data[0].NumFactura + 1
         }
-        var gencuf = generarCuf(codreq, nrof)
+        var gencuf = generarCuf(codreq, nrof).toString().substring(0,49)
         return res.json({
             nroFactura: nrof,
             cuf: gencuf,
             monto: montoTotal,
             qr: "1234567890",
             control: "A0-B1-C2-D3-E4",
-            fecha: currDate
+            fecha: formattedToday
         })
     })
 })
@@ -113,26 +139,60 @@ app.get("/getFactura", (req, res) => {
 
     const productos = req.query.productos
 
+    const queryCli = "SELECT NitCliente FROM cliente WHERE NitCliente = " + req.query.ci
+    db.query(queryCli, (err, data) => {
+        if(err) return res.json(err)
+        if(data.length <= 0){
+            const querInsCli = "INSERT INTO cliente (`NitCliente`,`RazonSocial`,`Direccion`,`Telefono`) VALUES (?)"
+            const valuesCli = [
+                req.query.ci,
+                req.query.nombre,
+                "Dirección desconocida",
+                "7777777",
+            ]
+            db.query(querInsCli,[valuesCli],(err, data) => {
+                if (err) console.log(err);
+                console.log("Cliente nuevo creado")
+            })
+        }
+
+    })
+
     const query1 = "INSERT INTO factura (`CUF`,`CodigoControl`,`MontoTotal`,`CodigoQR`,`NitCliente`) VALUES (?)";
     const values1 = [
         req.query.cuf,
         req.query.codigo,
         req.query.monto,
-        "1234567",
-        req.query.ci
+        req.query.qr,
+        req.query.ci,
     ];
+    
+   
 
     db.query(query1, [values1], (err, data) => {
-        if (err) console.log("Hubo error");
-        console.log("Factura creada correctamente")
+        if (err) console.log(err);
+       
+        for (var i = 0; i < productos.length; i++){
+            var query2 = "INSERT INTO detallefacturacion (`CodigoQR`,`NumFactura`,`Cantidad`) VALUES (?)"
+            var values2 = [
+                productos[i].CodigoQR,
+                data.insertId,
+                productos[i].qty,
+            ];
+            db.query(query2, [values2] , (err,data2) => {
+                if(err) console.log(err)
+                console.log("detalle agregado")
+            })
+        }
+        console.log(data.insertId)
     })
 
-    for (var i = 0; i < productos.length; i++){
-        var query2 = "INSERT INTO detallefacturacion (`CodigoQR`,`NumFactura`,`Cantidad`)"
-        var values2 = []
-    }
+    
 
-    const doc = new pdf({bufferPage: true})
+    
+    
+
+    const doc = new PDF({bufferPage: true})
 
     const filename = `Factura${Date.now()}.pdf`
 
@@ -145,52 +205,56 @@ app.get("/getFactura", (req, res) => {
     })
     doc.on('end', () => {stream.end()})
     doc.setDocumentHeader({
-        height: '16%'
+        height: '20%'
     },() => {
-        doc.fonstSize(15).text('FACTURA', {
+        doc.fontSize(15).text('FACTURA', {
             width: 420,
             align: 'center'
         })
-        doc.fonstSize(12)
+        doc.fontSize(12)
         doc.text('NIT: 9448270', {
             width: 420,
-            align: 'center'  
+            align: 'left'  
         })
         doc.text(`Sr(a): ${req.query.nombre}`, {
             width: 420,
-            align: 'center'  
+            align: 'left'  
         })
         doc.text(`C.I.: ${req.query.ci}`, {
             width: 420,
-            align: 'center'  
+            align: 'left'  
         })
         doc.text(`Fecha: ${req.query.fecha}`, {
             width: 420,
-            align: 'center'  
+            align: 'left'  
         })
 
 
     })
-
+    
     doc.addTable([
         {key: 'CodigoQR', label:'ID', align: 'left' },
         {key: 'NombreProducto', label:'Nombre', align: 'left' },
-        {key: 'Cantidad', label:'Cantidad', align: 'left' },
-        {key: 'PrecioUnitario', label:'Precio Unitario', align: 'left' },
-        {key: 'Subtotal', label:'SubTotal', align: 'left' }
+        {key: 'qty', label:'Cantidad', align: 'left' },
+        {key: 'Precio', label:'Precio Unitario', align: 'left' }
+        
     ], productos, {
         border: null,
         width: "fill_body",
         striped: true,
         stripedColors: ["#f6f6f6", "#d6c4dd"],
-        cellsPadding: 10,
+        cellsPadding: 20,
         marginLeft: 45,
         marginRight: 45,
         headAlign: 'center'
     })
+    
     doc.render()
-
+    doc.pipe(fs.createWriteStream('../client/src/factura.pdf'));
+    doc.pipe(res)
     doc.end()
+    
+    
 })
 
 function generarCuf(codigo, nro){

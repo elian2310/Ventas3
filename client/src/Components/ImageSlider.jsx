@@ -23,8 +23,7 @@ const length = slides.length;
 
   return (
     <section className='slider'>
-      <FaArrowAltCircleLeft className='left-arrow' onClick={nextSlide} />
-      <FaArrowAltCircleRight className='right-arrow'  onClick={nextSlide} />
+      
       {SliderData.map((slide, index) => {
           return (
             <div className={index === current ? 'slide active' : 'slide'} key={index}>

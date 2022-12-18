@@ -82,11 +82,11 @@ const Boton2 = styled.button`
 
 // Funciones boton
 function clickVerDetalles() {
-  alert("viendo detalles");
+  //alert("viendo detalles");
 }
 
 function clickVerAgregar() {
-  alert("Se agrego su producto!");
+  //alert("Se agrego su producto!");
 }
 
 // Codigo
@@ -115,7 +115,7 @@ export function Producto({ item }) {
         <div style={{fontWeight:"bold"}}>Envio Gratis</div>
         <div style={{ marginTop: "20px" }}>
           <Boton1 onClick={clickVerDetalles}>
-            <Link to="/itemview">Ver Detalles</Link>
+            <Link to="/itemview" state={{CodigoQR: item.CodigoQR}}>Ver Detalles</Link>
           </Boton1>
           {/*<Boton2 onClick={clickVerAgregar}>Agregar</Boton2>*/}
         </div>

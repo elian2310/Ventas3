@@ -13,7 +13,7 @@ import Facturas from "./pages/facturas";
 import CashierPage from "./pages/cashierPage";
 import PedidosPage from "./pages/Pedidos/Pedidos_Main";
 import ItemView from "./pages/ItemView";
-
+import Menu from "./pages/menu";
 
 function App() {
 
@@ -23,6 +23,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login/>}/>
+          <Route path="/menu" element={<Menu/>}/>
           <Route path="/addejm" element={<AddProductos/>}/>
           <Route path="/updejm" element={<UpdProductos/>}/>
           <Route path="/facturas" element={<Facturas/>}/>

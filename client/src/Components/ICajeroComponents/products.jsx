@@ -1,9 +1,12 @@
 import Product from "./product"
 import styled from "styled-components"
-import { products } from "./data"
+// import { products } from "./data"
 import React from "react"
 import ItemDetail from "./itemDetail"
 import { useState } from "react"
+import { useEffect } from "react";
+import axios from "axios";
+import https from "https";
 
 
 const Container = styled.div`
@@ -85,14 +88,31 @@ flex-direction: column;
 `
 
 
-const Products = () => {
+export default function Products({childToParent}) {
 
-    function includes(id, arr)
+
+    const [products, setDataCuf] = useState([])
+
+    useEffect(() => {
+        getCUFWithFetch();
+    }, []);
+
+    const getCUFWithFetch = async () => {
+        /* const agent = new https.Agent({  
+            rejectUnauthorized: false
+          });*/
+        const response = await axios.get("http://localhost:8800/getProductos");
+        
+        setDataCuf(response.data);
+    };
+    console.log(products)
+
+    function includes(CodigoQR, arr)
     {
         for(var i = 0; i<arr.length; i++)
         {
             //console.log("At index: " + i + ", id value is: " + arr[i][0]);
-            if(arr[i][0]===id){
+            if(arr[i][0]===CodigoQR){
                 return true;
             }
         }
@@ -100,9 +120,9 @@ const Products = () => {
 
     }
 
-    function myIndexOfAr(id, arr) {    
+    function myIndexOfAr(CodigoQR, arr) {    
         for (var i = 0; i < arr.length; i++) {
-            if (arr[i].id == id) {
+            if (arr[i].CodigoQR === CodigoQR) {
 
                 return i;
             }
@@ -127,20 +147,25 @@ const Products = () => {
             ...pre,
             tA
         ]);
+        childToParent(jsAr);
     }
     
     //Rmv Function for jsAr
     const parentRmvJs = (toRmv)=>{
         updateJS((current)=>
-            current.filter((item)=>item.id !== toRmv));
+            current.filter((item)=>item.CodigoQR !== toRmv));
+
+        childToParent(jsAr);
     }
     
     //Update Qty jsAr
     const parentQtyJs = (index)=>{
         jsAr[index].qty++;
+        
         updateJS((pre)=> [
             ...pre
         ]);
+        childToParent(jsAr);
         //updateJS(jsAr);
 
         /*jsAr.forEach(element => {
@@ -168,10 +193,10 @@ const Products = () => {
                 let indexFound = myIndexOfAr(toSearch, products);
                 if(indexFound > -1)
                 {
-                    let toAddAr = [products[indexFound].id, products[indexFound].name, 1];
-                    let toAddJS = {"id":products[indexFound].id, "name":products[indexFound].name, "qty":1};
+                    let toAddAr = [products[indexFound].CodigoQR, products[indexFound].NombreProducto, 1, products[indexFound].Precio];
+                    let toAddJS = {"CodigoQR":products[indexFound].CodigoQR, "NombreProducto":products[indexFound].NombreProducto, "qty":1, "Precio":products[indexFound].Precio};
                     //let includes = ar2.some(a=>toAddAr.every((v,i) => v === a[i]));
-                    let included = includes(products[indexFound].id, ar2);
+                    let included = includes(products[indexFound].CodigoQR, ar2);
                     //console.log("Element: " + products[indexFound].id + " is: " + included);
                     if(!included)
                     {
@@ -182,7 +207,7 @@ const Products = () => {
                     }
                     else
                     {
-                        let indexInDetails = myIndexOfAr(products[indexFound].id,jsAr)
+                        let indexInDetails = myIndexOfAr(products[indexFound].CodigoQR,jsAr)
                         //If it is already in it, we will update the qty
                         //console.log("Changing Qty");
                         parentQtyAr(indexInDetails);
@@ -196,7 +221,10 @@ const Products = () => {
         }
         else{
             //else, just add the number to string
-            document.getElementById("input").value += (num);}
+            document.getElementById("input").value += (num);
+        }
+        childToParent(jsAr);
+        
     }
 
     return (
@@ -204,7 +232,7 @@ const Products = () => {
             
             <Prods>
             {products.map(item=>(
-                <Product item={item} ar={ar2} parentFuntion={parentFunction} js={jsAr} parentAddJS = {parentAdJS} parentQtyAr={parentQtyAr} parentQtyJs={parentQtyJs} inc={includes} ind={myIndexOfAr} key = {item.id}/>
+                <Product item={item} ar={ar2} parentFuntion={parentFunction} js={jsAr} parentAddJS = {parentAdJS} parentQtyAr={parentQtyAr} parentQtyJs={parentQtyJs} inc={includes} ind={myIndexOfAr} key = {item.CodigoQR}/>
             ))}
             </Prods>
             <RightSide>
@@ -220,7 +248,7 @@ const Products = () => {
                     <Details id="details" >Detalles:</Details>
 
                     {jsAr.map(v=>(
-                        <ItemDetail id={v.id} name={v.name} qty={v.qty} ar={ar2} parentRmv ={parentRmvJs} key={v.id}/>
+                        <ItemDetail id={v.CodigoQR} name={v.NombreProducto} qty={v.qty} ar={ar2} parentRmv ={parentRmvJs} key={v.CodigoQR}/>
                     ))}
 
                 </DetailContainer>
@@ -231,7 +259,7 @@ const Products = () => {
 }
 
 
-export default Products
+
 
 /*{window.arr.map(v=>(
     <ItemDetail id={v[0]} name={v[1]} qty={1}/>
