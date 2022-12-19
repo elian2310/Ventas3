@@ -45,6 +45,7 @@ export const ListaProductos = () => {
         
         setDataCuf(response.data);
     };
+    console.log(productos)
 
   return (
     <Container>

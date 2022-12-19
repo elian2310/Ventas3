@@ -75,7 +75,8 @@ app.get("/getProductos", (req, res) => {
 })
 app.get("/getProductoByQR", (req, res) => {
     var codQR = req.query.CodigoQR
-    const query = "SELECT * FROM producto WHERE CodigoQR = " + codQR;
+    const query = "SELECT * FROM producto";
+    //console.log(query)
     db.query(query, (err, data) => {
         if(err) return res.json(err)
         return res.json(data)
@@ -171,6 +172,7 @@ app.get("/getFactura", (req, res) => {
 
     db.query(query1, [values1], (err, data) => {
         if (err) console.log(err);
+        console.log(data.insertId)
        
         for (var i = 0; i < productos.length; i++){
             var query2 = "INSERT INTO detallefacturacion (`CodigoQR`,`NumFactura`,`Cantidad`) VALUES (?)"
@@ -184,7 +186,7 @@ app.get("/getFactura", (req, res) => {
                 console.log("detalle agregado")
             })
         }
-        console.log(data.insertId)
+        
     })
 
     

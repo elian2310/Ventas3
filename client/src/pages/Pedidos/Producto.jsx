@@ -115,7 +115,7 @@ export function Producto({ item }) {
         <div style={{fontWeight:"bold"}}>Envio Gratis</div>
         <div style={{ marginTop: "20px" }}>
           <Boton1 onClick={clickVerDetalles}>
-            <Link to="/itemview" state={{CodigoQR: item.CodigoQR}}>Ver Detalles</Link>
+            <Link to="/itemview" state={{CodigoQR: item.CodigoQR, nombre: item.NombreProducto, descripcion: item.Descripcion, precio: item.Precio}}>Ver Detalles</Link>
           </Boton1>
           {/*<Boton2 onClick={clickVerAgregar}>Agregar</Boton2>*/}
         </div>

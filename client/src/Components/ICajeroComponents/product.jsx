@@ -1,6 +1,6 @@
 import styled from "styled-components"
 //import sample from '../src/sampleImg/sample.png'
-import sample from '../../sampleImg/sample.png'
+import sample from '../../sampleImg/sample2.jpg'
 import React from "react"
 
 const Container = styled.div`

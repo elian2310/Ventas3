@@ -12,43 +12,41 @@ import https from "https";
 
 
 
-function Item() {
+const Item = () => {
   const location = useLocation()
-  const { CodigoQR } = location.state
+  const { CodigoQR, nombre, descripcion, precio } = location.state
     const handleSubmit = e => {e.preventDefault();
     };
 
     const [product, setDataCuf] = useState([])
 
-    const urlreq = "http://localhost:8800/getProductoByQR"
+    
 
     useEffect(() => {
         getCUFWithFetch();
     }, []);
 
     const getCUFWithFetch = async () => {
-        const response = await axios.get(urlreq, {
-          params: {
-            CodigoQR: CodigoQR
-          }
-        });       
-        setDataCuf(response.data);
-    };
-    console.log(product)
+        
+      const response = await axios.get("http://localhost:8800/getProductos");
+      
+      setDataCuf(response.data);
+  };
+  console.log(product)
     
 
   return (
     <form className='ItemView' onSubmit={handleSubmit}>
-        <h1>Producto: {product[0].NombreProducto}</h1>
-        <ImageSlider slides={SliderData}/>
+        <h1>Producto: {nombre}</h1>
+        
         
 
         <h2>Descripcion del producto: <br></br>
-        {product[0].Descripcion} <br></br> 
+        {descripcion} <br></br> 
         
         <br></br>
         Percio:<br></br>
-        {product[0].Precio}
+        {precio}
         </h2>
         
         
