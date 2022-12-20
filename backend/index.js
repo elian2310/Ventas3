@@ -162,7 +162,7 @@ app.get("/getFactura", (req, res) => {
     const query1 = "INSERT INTO factura (`CUF`,`CodigoControl`,`MontoTotal`,`CodigoQR`,`NitCliente`) VALUES (?)";
     const values1 = [
         req.query.cuf,
-        req.query.codigo,
+        makeid(13),
         req.query.monto,
         req.query.qr,
         req.query.ci,
@@ -172,7 +172,7 @@ app.get("/getFactura", (req, res) => {
 
     db.query(query1, [values1], (err, data) => {
         if (err) console.log(err);
-        console.log(data.insertId)
+        
        
         for (var i = 0; i < productos.length; i++){
             var query2 = "INSERT INTO detallefacturacion (`CodigoQR`,`NumFactura`,`Cantidad`) VALUES (?)"
@@ -285,6 +285,16 @@ function addZero(text, num){
         text = "0" + text
     }
     return text
+}
+
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
 
 
