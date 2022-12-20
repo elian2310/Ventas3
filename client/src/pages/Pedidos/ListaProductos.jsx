@@ -13,6 +13,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import https from "https";
+import { Link } from "react-router-dom";
 
 // Estilos
 const Container = styled.div`
@@ -33,6 +34,13 @@ const Prods = styled.div`
 // Codigo
 export const ListaProductos = () => {
 
+  const cart = []
+
+  const addToCart = (item) => {
+    cart.push(item);
+    alert(`Añadido al carrito ${item.cantidad} ${item.producto.NombreProducto}`)
+  }
+
   const [productos, setDataCuf] = useState([])
 
     useEffect(() => {
@@ -49,11 +57,13 @@ export const ListaProductos = () => {
 
   return (
     <Container>
+      <button><Link to="/carrito" state={{carrito: cart}}>Pagar Carrito</Link></button>
       <Prods>
         {productos.map((item) => (
-          <Producto item={item} key={item.CodigoQR} />
+          <Producto item={item} addToCart={addToCart} key={item.CodigoQR} />
         ))}
       </Prods>
+      
     </Container>
   );
 };

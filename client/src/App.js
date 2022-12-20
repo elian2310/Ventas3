@@ -14,6 +14,7 @@ import CashierPage from "./pages/cashierPage";
 import PedidosPage from "./pages/Pedidos/Pedidos_Main";
 import ItemView from "./pages/ItemView";
 import Menu from "./pages/menu";
+import CarritoPedidos from "./pages/Pedidos/CarritoPedidos";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/cashier" element={<CashierPage/>}/>
           <Route path="/pedidos" element={<PedidosPage/>}/>
           <Route path="/itemview" element={<ItemView/>}/>
+          <Route path="/carrito" element={<CarritoPedidos/>}/>
         </Routes>
       </BrowserRouter>
       

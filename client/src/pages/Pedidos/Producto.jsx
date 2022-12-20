@@ -8,6 +8,7 @@ import styled from "styled-components";
 // Importaciones
 import { AiFillStar } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { useState, useEffect} from "react";
 
 // Estilos (Producto)
 const ContenedorProducto = styled.div`
@@ -67,6 +68,12 @@ const Boton1 = styled.button`
   border-radius: 5px;
   cursor: pointer;
 `;
+const Input1 = styled.input`
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 75px
+`;
 
 const Boton2 = styled.button`
   background: fixed;
@@ -85,12 +92,21 @@ function clickVerDetalles() {
   //alert("viendo detalles");
 }
 
-function clickVerAgregar() {
-  //alert("Se agrego su producto!");
-}
+
 
 // Codigo
-export function Producto({ item }) {
+export function Producto({ item, addToCart }) {
+  const [qty, setQty] = useState('');
+  const [updQty, setUpdQty] = useState(qty);
+
+  const handleChangeQty = (event) => {
+    setQty(event.target.value);
+  }
+  const handleClick = () => {
+    setUpdQty(qty);
+    addToCart({producto: item, cantidad: qty})
+  }
+
   return (
     <ContenedorProducto>
       <ContenedorIzquierda>
@@ -112,12 +128,12 @@ export function Producto({ item }) {
       </ContenedorCentro>
       <ContenedorDerecha>
         <h2>{item.Precio}$</h2>
-        <div style={{fontWeight:"bold"}}>Envio Gratis</div>
         <div style={{ marginTop: "20px" }}>
-          <Boton1 onClick={clickVerDetalles}>
+          <Input1 type="number" placeholder="cantidad" id="qty" onChange={handleChangeQty}></Input1>
+          {<Boton1 onClick={clickVerDetalles}>
             <Link to="/itemview" state={{CodigoQR: item.CodigoQR, nombre: item.NombreProducto, descripcion: item.Descripcion, precio: item.Precio}}>Ver Detalles</Link>
-          </Boton1>
-          {/*<Boton2 onClick={clickVerAgregar}>Agregar</Boton2>*/}
+          </Boton1>}
+          {<Boton2 onClick={handleClick}>Agregar</Boton2>}
         </div>
       </ContenedorDerecha>
     </ContenedorProducto>
